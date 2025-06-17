@@ -1,0 +1,85 @@
+/* Container styling */
+.profile-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 2rem 1.5rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Header styling */
+.profile-container h2 {
+  color: #007bff;
+  margin-bottom: 1.2rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.profile-container h3 {
+  color: #333;
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3rem;
+}
+
+/* List styling */
+.profile-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.profile-container li {
+  background: #f8f9fa;
+  margin-bottom: 0.7rem;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.profile-container li:hover {
+  background: #e9ecef;
+}
+
+/* Shop and product name styling */
+.profile-container .shop-name,
+.profile-container .product-name {
+  font-weight: 500;
+  color: #007bff;
+  margin-right: 0.7rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+  .profile-container {
+    padding: 1rem 0.5rem;
+  }
+  .profile-container h2 {
+    font-size: 1.4rem;
+  }
+  .profile-container h3 {
+    font-size: 1.05rem;
+  }
+  .profile-container li {
+    font-size: 0.97rem;
+    padding: 0.6rem 0.7rem;
+  }
+}
+
+/* Error message styling */
+.profile-container .error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c2c7;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
