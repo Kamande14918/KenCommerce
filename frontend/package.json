@@ -1,0 +1,66 @@
+{
+  "name": "kencommerce-frontend",
+  "version": "1.0.0",
+  "description": "Modern React frontend for KenCommerce eCommerce platform",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.5.0",
+    "formik": "^2.4.6",
+    "framer-motion": "^10.16.4",
+    "js-cookie": "^3.0.5",
+    "react": "^18.2.0",
+    "react-datepicker": "^4.16.0",
+    "react-dom": "^18.2.0",
+    "react-helmet-async": "^1.3.0",
+    "react-hook-form": "^7.45.4",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.10.1",
+    "react-image-zoom": "^1.3.1",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-intersection-observer": "^9.5.2",
+    "react-lazyload": "^3.2.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-query": "^3.39.3",
+    "react-rating-stars-component": "^2.2.0",
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.15.0",
+    "react-select": "^5.7.4",
+    "react-toastify": "^11.0.5",
+    "swiper": "^10.3.1",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.4",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.48.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.28",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.9"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
