@@ -468,30 +468,36 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-// @desc    Fetch all orders
+// @desc    Fetch all orders (admin)
 // @route   GET /api/orders
 // @access  Private/Admin
-exports.getOrders = async (req, res) => {
+const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find({}).populate('user', 'name email');
-    res.status(200).json(orders);
+    const orders = await Order.find({})
+      .populate('user', 'firstName lastName email')
+      .populate('items.product', 'name images');
+    res.status(200).json({ success: true, data: orders });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch orders', error: error.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch orders', error: error.message });
   }
 };
 
-// @desc    Fetch a single order by ID
-// @route   GET /api/orders/:id
-// @access  Private
-exports.getOrderById = async (req, res) => {
+// @desc    Delete an order (admin)
+// @route   DELETE /api/orders/:id
+// @access  Private/Admin
+const deleteOrder = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate('user', 'name email');
+    const order = await Order.findById(req.params.id);
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ success: false, message: 'Order not found' });
     }
-    res.status(200).json(order);
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this order' });
+    }
+    await order.remove();
+    res.status(200).json({ success: true, message: 'Order deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch order', error: error.message });
+    res.status(500).json({ success: false, message: 'Server error while deleting order', error: error.message });
   }
 };
 
@@ -503,6 +509,6 @@ module.exports = {
   updateOrderToDelivered,
   cancelOrder,
   updateOrderStatus,
-  getAllOrders,
-  getSellerOrders
+  getOrders,
+  deleteOrder
 };

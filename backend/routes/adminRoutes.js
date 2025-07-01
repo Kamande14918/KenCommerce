@@ -1,26 +1,24 @@
 const express = require('express');
-const { protect, admin, superAdmin } = require('../middleware/authMiddleware');
+const { protect, admin } = require('../middleware/authMiddleware');
 const {
   getDashboardAnalytics,
-  getProducts,
-  getOrders,
-  getUsers,
-  getCategories,
-  getReviews,
+  manageProducts,
+  manageOrders,
+  manageUsers,
 } = require('../controllers/adminController');
 
 const router = express.Router();
 
+// Admin dashboard
 router.get('/dashboard', protect, admin, getDashboardAnalytics);
-router.get('/products', protect, admin, getProducts);
-router.get('/orders', protect, admin, getOrders);
-router.get('/users', protect, admin, getUsers);
-router.get('/categories', protect, admin, getCategories);
-router.get('/reviews', protect, admin, getReviews);
 
-// Example route only accessible by super admin
-router.post('/create-admin', protect, superAdmin, async (req, res) => {
-  // Logic to create a new admin
-});
+// Manage products
+router.get('/products', protect, admin, manageProducts);
+
+// Manage orders
+router.get('/orders', protect, admin, manageOrders);
+
+// Manage users
+router.get('/users', protect, admin, manageUsers);
 
 module.exports = router;
