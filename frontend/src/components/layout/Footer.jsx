@@ -9,6 +9,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
+    // Customer Service section: all support-related pages
     'Customer Service': [
       { name: 'Contact Us', href: '/contact' },
       { name: 'FAQ', href: '/faq' },
@@ -16,25 +17,28 @@ const Footer = () => {
       { name: 'Returns & Exchanges', href: '/returns' },
       { name: 'Size Guide', href: '/size-guide' },
     ],
+    // About section: company info and About page
     'About': [
-      { name: 'Our Story', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Press', href: '/press' },
-      { name: 'Sustainability', href: '/sustainability' },
-      { name: 'Affiliates', href: '/affiliates' },
+      { name: 'About Us', href: '/about' },
+      // { name: 'Careers', href: '/careers' }, // Placeholder, not implemented
+      // { name: 'Press', href: '/press' }, // Placeholder, not implemented
+      // { name: 'Sustainability', href: '/sustainability' }, // Placeholder, not implemented
+      // { name: 'Affiliates', href: '/affiliates' }, // Placeholder, not implemented
     ],
+    // Account section: user account and wishlist
     'Account': [
       { name: 'My Account', href: '/profile' },
-      { name: 'Order History', href: '/orders' },
+      { name: 'Order History', href: '/order-history' },
       { name: 'Wishlist', href: '/wishlist' },
-      { name: 'Track Order', href: '/track-order' },
-      { name: 'Gift Cards', href: '/gift-cards' },
+      // { name: 'Track Order', href: '/track-order' }, // Placeholder, not implemented
+      // { name: 'Gift Cards', href: '/gift-cards' }, // Placeholder, not implemented
     ],
+    // Legal section: legal and policy pages
     'Legal': [
-      { name: 'Privacy Policy', href: '/privacy' },
-      { name: 'Terms of Service', href: '/terms' },
-      { name: 'Cookie Policy', href: '/cookies' },
-      { name: 'Accessibility', href: '/accessibility' },
+      { name: 'Privacy Policy', href: '/privacy' }, // Placeholder, not implemented
+      { name: 'Terms of Service', href: '/terms' }, // Placeholder, not implemented
+      { name: 'Cookie Policy', href: '/cookies' }, // Placeholder, not implemented
+      { name: 'Accessibility', href: '/accessibility' }, // Placeholder, not implemented
     ],
   }
 

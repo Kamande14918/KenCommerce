@@ -12,6 +12,12 @@ import OrderHistory from './pages/OrderHistory';
 import OrderDetail from './pages/OrderDetail';
 import Wishlist from './pages/Wishlist';
 import NotFound from './pages/NotFound';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import FAQ from './pages/FAQ';
+import Returns from './pages/Returns';
+import Shipping from './pages/Shipping';
+import SizeGuide from './pages/SizeGuide';
 
 // Admin Layout
 import AdminLayout from './components/admin/AdminLayout';
@@ -41,6 +47,12 @@ const AppRoutes = () => {
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/order-detail" element={<OrderDetail />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/returns" element={<Returns />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/size-guide" element={<SizeGuide />} />
 
         {/* Admin Routes */}
         <Route
