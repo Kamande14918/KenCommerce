@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
 import Login from './pages/Login';
@@ -20,6 +20,12 @@ import AdminUsers from './pages/admin/Users';
 import AdminCategories from './pages/admin/Categories';
 import AdminReviews from './pages/admin/Reviews';
 import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminProducts from './pages/admin/Products';
+import AdminOrders from './pages/admin/Orders';
+import AdminSettings from './pages/admin/Settings';
+import AdminProductCreate from './pages/admin/ProductCreate';
+import AdminProductEdit from './pages/admin/ProductEdit';
 
 const AppRoutes = () => {
   return (
@@ -71,6 +77,67 @@ const AppRoutes = () => {
             </AdminRoute>
           }
         />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/products/create"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <AdminProductCreate />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/products/:id/edit"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <AdminProductEdit />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <AdminProducts />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <AdminOrders />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <AdminSettings />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
 
         {/* Catch-All Route */}
         <Route path="*" element={<NotFound />} />

@@ -49,16 +49,21 @@ const getProductById = async (req, res) => {
 // @access  Private (Admin)
 const createProduct = async (req, res) => {
   try {
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      images = req.files.map(file => ({
+        public_id: file.filename || file.public_id,
+        url: file.path || file.url,
+        alt: file.originalname || '',
+      }));
+    }
     const product = new Product({
       ...req.body,
-      seller: req.user.id,
+      images,
     });
-
     await product.save();
-
     res.status(201).json({ message: 'Product created successfully', product });
   } catch (error) {
-    console.error('Create product error:', error);
     res.status(500).json({ message: 'Failed to create product', error: error.message });
   }
 };
@@ -69,15 +74,19 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-
+    // If new images are uploaded, replace images array
+    if (req.files && req.files.length > 0) {
+      product.images = req.files.map((file) => ({
+        public_id: file.filename || file.public_id,
+        url: file.path || file.url,
+        alt: file.originalname || '',
+      }));
+    }
     Object.assign(product, req.body);
-
     await product.save();
-
     res.status(200).json({ message: 'Product updated successfully', product });
   } catch (error) {
     console.error('Update product error:', error);

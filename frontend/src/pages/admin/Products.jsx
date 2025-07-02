@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -10,17 +11,22 @@ const AdminProducts = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `/api/admin/products?page=${currentPage}&search=${searchQuery}&category=${selectedCategory}`
-        );
+        const token = localStorage.getItem('kencommerce_token');
+        const url = `/api/admin/products?page=${currentPage}&search=${searchQuery}&category=${selectedCategory}`;
+        console.log('[Products] Fetching products:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setProducts(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (err) {
+        console.error('[Products] Failed to fetch products:', err, err?.response);
         setError(err.response?.data?.message || 'Failed to fetch products');
         setLoading(false);
       }
@@ -32,10 +38,15 @@ const AdminProducts = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('/api/admin/categories');
+        const token = localStorage.getItem('kencommerce_token');
+        const url = '/api/admin/categories';
+        console.log('[Products] Fetching categories:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setCategories(response.data.data);
       } catch (err) {
-        console.error('Failed to fetch categories');
+        console.error('[Products] Failed to fetch categories:', err, err?.response);
       }
     };
 
@@ -49,6 +60,19 @@ const AdminProducts = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     setCurrentPage(1); // Reset to the first page when searching
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+    try {
+      const token = localStorage.getItem('kencommerce_token');
+      await axios.delete(`/api/admin/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setProducts(products.filter((p) => p._id !== id));
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to delete product');
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -90,19 +114,40 @@ const AdminProducts = () => {
       <table className="w-full bg-white shadow rounded">
         <thead>
           <tr>
+            <th className="p-4 text-left">Image</th>
             <th className="p-4 text-left">Name</th>
             <th className="p-4 text-left">Price</th>
             <th className="p-4 text-left">Stock</th>
             <th className="p-4 text-left">Category</th>
+            <th className="p-4 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
           {products.map((product) => (
             <tr key={product._id}>
+              <td className="p-4">
+                {product.images && product.images.length > 0 && (
+                  <img src={product.images[0].url || product.images[0]} alt="Product" className="w-12 h-12 object-cover rounded" />
+                )}
+              </td>
               <td className="p-4">{product.name}</td>
               <td className="p-4">${product.price}</td>
               <td className="p-4">{product.stock}</td>
               <td className="p-4">{product.category.name}</td>
+              <td className="p-4 space-x-2">
+                <button
+                  onClick={() => navigate(`/admin/products/${product._id}/edit`)}
+                  className="px-3 py-1 bg-blue-500 text-white rounded"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(product._id)}
+                  className="px-3 py-1 bg-red-500 text-white rounded"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

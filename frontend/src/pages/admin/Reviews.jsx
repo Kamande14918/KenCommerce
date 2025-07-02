@@ -12,13 +12,17 @@ const AdminReviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(
-          `/api/admin/reviews?page=${currentPage}&search=${searchQuery}`
-        );
+        const token = localStorage.getItem('kencommerce_token');
+        const url = `/api/admin/reviews?page=${currentPage}&search=${searchQuery}`;
+        console.log('[Reviews] Fetching reviews:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setReviews(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (err) {
+        console.error('[Reviews] Failed to fetch reviews:', err, err?.response);
         setError(err.response?.data?.message || 'Failed to fetch reviews');
         setLoading(false);
       }

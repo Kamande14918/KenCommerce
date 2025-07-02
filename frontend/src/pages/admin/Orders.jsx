@@ -12,13 +12,17 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(
-          `/api/admin/orders?page=${currentPage}&search=${searchQuery}`
-        );
+        const token = localStorage.getItem('kencommerce_token');
+        const url = `/api/admin/orders?page=${currentPage}&search=${searchQuery}`;
+        console.log('[Orders] Fetching orders:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setOrders(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (err) {
+        console.error('[Orders] Failed to fetch orders:', err, err?.response);
         setError(err.response?.data?.message || 'Failed to fetch orders');
         setLoading(false);
       }

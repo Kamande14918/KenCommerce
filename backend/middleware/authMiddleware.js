@@ -29,4 +29,11 @@ const admin = (req, res, next) => {
   }
 };
 
-module.exports = { protect, admin };
+// Generate JWT token for a user
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+};
+
+module.exports = { protect, admin, generateToken };

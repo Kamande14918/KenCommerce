@@ -13,7 +13,10 @@ const AdminLayout = ({ children }) => {
             Dashboard
           </Link>
           <Link to="/admin/products" className="block px-6 py-3 text-gray-700 hover:bg-gray-50">
-            Products
+            Manage Products
+          </Link>
+          <Link to="/admin/products/create" className="block px-6 py-3 text-gray-700 hover:bg-gray-50">
+            Add Product
           </Link>
           <Link to="/admin/orders" className="block px-6 py-3 text-gray-700 hover:bg-gray-50">
             Orders

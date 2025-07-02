@@ -40,6 +40,8 @@ import AdminUsers from './pages/admin/Users'
 import AdminCategories from './pages/admin/Categories'
 import AdminReviews from './pages/admin/Reviews'
 import AdminSettings from './pages/admin/Settings'
+import AdminProductCreate from './pages/admin/ProductCreate'
+import AdminProductEdit from './pages/admin/ProductEdit'
 
 // Hooks
 import { useAuth } from './hooks/useAuth'
@@ -117,6 +119,8 @@ function App() {
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/admin/products" element={<AdminProducts />} />
+                  <Route path="/admin/products/create" element={<AdminProductCreate />} />
+                  <Route path="/admin/products/:id/edit" element={<AdminProductEdit />} />
                   <Route path="/admin/orders" element={<AdminOrders />} />
                   <Route path="/admin/users" element={<AdminUsers />} />
                   <Route path="/admin/categories" element={<AdminCategories />} />

@@ -12,13 +12,17 @@ const AdminUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(
-          `/api/admin/users?page=${currentPage}&search=${searchQuery}`
-        );
+        const token = localStorage.getItem('kencommerce_token');
+        const url = `/api/admin/users?page=${currentPage}&search=${searchQuery}`;
+        console.log('[Users] Fetching users:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setUsers(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (err) {
+        console.error('[Users] Failed to fetch users:', err, err?.response);
         setError(err.response?.data?.message || 'Failed to fetch users');
         setLoading(false);
       }

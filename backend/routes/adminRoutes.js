@@ -6,6 +6,8 @@ const {
   manageOrders,
   manageUsers,
 } = require('../controllers/adminController');
+const categoryController = require('../controllers/categoryController');
+const reviewController = require('../controllers/reviewController');
 
 const router = express.Router();
 
@@ -20,5 +22,11 @@ router.get('/orders', protect, admin, manageOrders);
 
 // Manage users
 router.get('/users', protect, admin, manageUsers);
+
+// Admin categories
+router.get('/categories', protect, admin, categoryController.getCategories);
+
+// Admin reviews
+router.get('/reviews', protect, admin, reviewController.getAllReviews);
 
 module.exports = router;

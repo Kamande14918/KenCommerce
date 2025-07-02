@@ -12,13 +12,17 @@ const AdminCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          `/api/admin/categories?page=${currentPage}&search=${searchQuery}`
-        );
+        const token = localStorage.getItem('kencommerce_token');
+        const url = `/api/admin/categories?page=${currentPage}&search=${searchQuery}`;
+        console.log('[Categories] Fetching categories:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setCategories(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);
       } catch (err) {
+        console.error('[Categories] Failed to fetch categories:', err, err?.response);
         setError(err.response?.data?.message || 'Failed to fetch categories');
         setLoading(false);
       }

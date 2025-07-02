@@ -9,7 +9,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await axios.get('/api/admin/dashboard');
+        const token = localStorage.getItem('kencommerce_token');
+        const url = '/api/admin/dashboard';
+        console.log('[Dashboard] Fetching analytics:', { url, token });
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setAnalytics(response.data.data);
         setLoading(false);
       } catch (err) {
@@ -23,6 +28,7 @@ const AdminDashboard = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
+  if (!analytics || !analytics.overview) return <p>No analytics data available.</p>;
 
   return (
     <div>

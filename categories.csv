@@ -1,0 +1,27 @@
+name,description,slug,isActive,isFeatured
+Electronics,Electronic devices and gadgets,electronics,true,true
+Fashion,Clothing and accessories,fashion,true,true
+Home & Garden,Home improvement and garden supplies,home-garden,true,true
+Books,Books and educational materials,books,true,false
+Sports,Sports equipment and accessories,sports,true,true
+Beauty & Personal Care,Cosmetics, skincare, and personal care products,beauty-personal-care,true,false
+Health & Wellness,Health products and supplements,health-wellness,true,false
+Toys & Games,Toys, games, and entertainment for children,toys-games,true,false
+Automotive,Car parts and automotive accessories,automotive,true,false
+Office Supplies,Office equipment and supplies,office-supplies,true,false
+Jewelry & Watches,Jewelry, watches, and accessories,jewelry-watches,true,false
+Baby & Kids,Baby products and kids accessories,baby-kids,true,false
+Pet Supplies,Products for pets and animals,pet-supplies,true,false
+Groceries,Food and grocery items,groceries,true,false
+Music & Movies,Music, movies, and entertainment media,music-movies,true,false
+Tools & Home Improvement,Tools and home improvement supplies,tools-home-improvement,true,false
+Appliances,Home and kitchen appliances,appliances,true,false
+Shoes,Footwear for men, women, and kids,shoes,true,false
+Bags & Luggage,Bags, backpacks, and luggage,bags-luggage,true,false
+Art & Craft,Art supplies and craft materials,art-craft,true,false
+Stationery,Stationery and writing supplies,stationery,true,false
+Gift Items,Gifts and special occasion items,gift-items,true,false
+Travel,Travel accessories and essentials,travel,true,false
+Industrial & Scientific,Industrial and scientific products,industrial-scientific,true,false
+Musical Instruments,Instruments and music gear,musical-instruments,true,false
+Outdoor & Adventure,Outdoor gear and adventure equipment,outdoor-adventure,true,false

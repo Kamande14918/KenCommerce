@@ -12,7 +12,7 @@ const {
   deleteProduct,
 } = require('../controllers/productController');
 const { protect, admin } = require('../middleware/authMiddleware');
-const { upload } = require('../middleware/uploadMiddleware');
+const { uploadProductImages } = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ router.get('/:id/related', getRelatedProducts);
 router.post('/:id/reviews', protect, addProductReview);
 
 // Admin routes
-router.post('/', protect, admin, upload.productImages, createProduct);
+router.post('/', protect, admin, uploadProductImages, createProduct);
 router.put('/:id', protect, admin, upload.productImages, updateProduct);
 router.delete('/:id', protect, admin, deleteProduct);
 

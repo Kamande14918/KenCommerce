@@ -548,6 +548,37 @@ const updateProductRatingStats = async (productId) => {
   }
 };
 
+// @desc    Get all reviews (admin)
+// @route   GET /api/admin/reviews
+// @access  Private/Admin
+const getAllReviews = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const search = req.query.search || '';
+    const filter = {};
+    if (search) {
+      filter.comment = { $regex: search, $options: 'i' };
+    }
+    const reviews = await Review.find(filter)
+      .populate('user', 'firstName lastName avatar')
+      .populate('product', 'name images price')
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+    const total = await Review.countDocuments(filter);
+    res.json({
+      success: true,
+      data: reviews,
+      totalPages: Math.ceil(total / limit) || 1,
+    });
+  } catch (error) {
+    console.error('Admin getAllReviews error:', error);
+    res.status(500).json({ success: false, message: 'Server error while fetching reviews' });
+  }
+};
+
 module.exports = {
   getReviews,
   getReviewById,
@@ -557,5 +588,6 @@ module.exports = {
   getReviewsByProduct,
   getReviewsByUser,
   markReviewHelpful,
-  reportReview
+  reportReview,
+  getAllReviews
 };

@@ -20,35 +20,16 @@ const connectDB = async () => {
 // Sample data
 const sampleUsers = [
   {
-    firstName: 'Admin',
-    lastName: 'User',
-    email: 'admin@kencommerce.com',
-    password: 'admin123',
+    firstName: 'Kennedy',
+    lastName: 'Kamande',
+    email: 'kamandemungai841@gmail.com',
+    password: 'Ken@14918',
     role: 'admin',
     isEmailVerified: true,
     isActive: true
-  },
-  {
-    firstName: 'John',
-    lastName: 'Seller',
-    email: 'seller@kencommerce.com',
-    password: 'seller123',
-    role: 'seller',
-    businessName: 'John\'s Electronics',
-    businessDescription: 'Quality electronics and gadgets',
-    isEmailVerified: true,
-    isActive: true
-  },
-  {
-    firstName: 'Jane',
-    lastName: 'Customer',
-    email: 'customer@kencommerce.com',
-    password: 'customer123',
-    role: 'customer',
-    isEmailVerified: true,
-    isActive: true
-  }
-];
+  }]
+  
+  
 
 const sampleCategories = [
   {
@@ -85,6 +66,154 @@ const sampleCategories = [
     slug: 'sports',
     isActive: true,
     isFeatured: true
+  },
+  // Additional common e-commerce categories
+  {
+    name: 'Beauty & Personal Care',
+    description: 'Cosmetics, skincare, and personal care products',
+    slug: 'beauty-personal-care',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Health & Wellness',
+    description: 'Health products and supplements',
+    slug: 'health-wellness',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Toys & Games',
+    description: 'Toys, games, and entertainment for children',
+    slug: 'toys-games',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Automotive',
+    description: 'Car parts and automotive accessories',
+    slug: 'automotive',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Office Supplies',
+    description: 'Office equipment and supplies',
+    slug: 'office-supplies',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Jewelry & Watches',
+    description: 'Jewelry, watches, and accessories',
+    slug: 'jewelry-watches',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Baby & Kids',
+    description: 'Baby products and kids accessories',
+    slug: 'baby-kids',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Pet Supplies',
+    description: 'Products for pets and animals',
+    slug: 'pet-supplies',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Groceries',
+    description: 'Food and grocery items',
+    slug: 'groceries',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Music & Movies',
+    description: 'Music, movies, and entertainment media',
+    slug: 'music-movies',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Tools & Home Improvement',
+    description: 'Tools and home improvement supplies',
+    slug: 'tools-home-improvement',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Appliances',
+    description: 'Home and kitchen appliances',
+    slug: 'appliances',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Shoes',
+    description: 'Footwear for men, women, and kids',
+    slug: 'shoes',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Bags & Luggage',
+    description: 'Bags, backpacks, and luggage',
+    slug: 'bags-luggage',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Art & Craft',
+    description: 'Art supplies and craft materials',
+    slug: 'art-craft',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Stationery',
+    description: 'Stationery and writing supplies',
+    slug: 'stationery',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Gift Items',
+    description: 'Gifts and special occasion items',
+    slug: 'gift-items',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Travel',
+    description: 'Travel accessories and essentials',
+    slug: 'travel',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Industrial & Scientific',
+    description: 'Industrial and scientific products',
+    slug: 'industrial-scientific',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Musical Instruments',
+    description: 'Instruments and music gear',
+    slug: 'musical-instruments',
+    isActive: true,
+    isFeatured: false
+  },
+  {
+    name: 'Outdoor & Adventure',
+    description: 'Outdoor gear and adventure equipment',
+    slug: 'outdoor-adventure',
+    isActive: true,
+    isFeatured: false
   }
 ];
 
@@ -200,6 +329,17 @@ const sampleProducts = [
   }
 ];
 
+// Ensure every image has a public_id for seeding
+sampleProducts.forEach(product => {
+  if (Array.isArray(product.images)) {
+    product.images.forEach((img, idx) => {
+      if (!img.public_id) {
+        img.public_id = `seeded-image-${product.name.toLowerCase().replace(/\s+/g, '-')}-${idx}`;
+      }
+    });
+  }
+});
+
 const importData = async () => {
   try {
     await connectDB();
@@ -211,30 +351,31 @@ const importData = async () => {
 
     console.log('Existing data cleared');
 
-    // Create users
+    // Create admin user only
     const users = await User.create(sampleUsers);
-    console.log('Sample users created');
+    console.log('Admin user created');
 
     // Create categories
     const categories = await Category.create(sampleCategories);
     console.log('Sample categories created');
 
-    // Create products with proper category and seller references
+    // Find reference categories
     const electronicsCategory = categories.find(cat => cat.slug === 'electronics');
     const fashionCategory = categories.find(cat => cat.slug === 'fashion');
-    const seller = users.find(user => user.role === 'seller');
+    const admin = users.find(user => user.role === 'admin');
+    const fallbackCategory = categories[0];
+    const fallbackAdmin = admin || users[0];
 
+    // Assign categories and admin as seller to products
     const productsWithRefs = sampleProducts.map((product, index) => {
       // Assign categories
       if (index < 2 || index === 3 || index === 4) {
-        product.category = electronicsCategory._id;
+        product.category = (electronicsCategory && electronicsCategory._id) || (fallbackCategory && fallbackCategory._id);
       } else {
-        product.category = fashionCategory._id;
+        product.category = (fashionCategory && fashionCategory._id) || (fallbackCategory && fallbackCategory._id);
       }
-      
-      // Assign seller
-      product.seller = seller._id;
-      
+      // Assign admin as seller
+      product.seller = fallbackAdmin ? fallbackAdmin._id : undefined;
       return product;
     });
 
@@ -242,11 +383,8 @@ const importData = async () => {
     console.log('Sample products created');
 
     console.log('Sample data imported successfully!');
-    console.log('\nDefault user credentials:');
-    console.log('Admin: admin@kencommerce.com / admin123');
-    console.log('Seller: seller@kencommerce.com / seller123');
-    console.log('Customer: customer@kencommerce.com / customer123');
-    
+    console.log('\nDefault admin credentials:');
+    console.log(`Admin: ${sampleUsers[0].email} / ${sampleUsers[0].password}`);
     process.exit();
   } catch (error) {
     console.error('Error importing data:', error);
