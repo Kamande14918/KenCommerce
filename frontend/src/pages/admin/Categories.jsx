@@ -44,11 +44,29 @@ const AdminCategories = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Categories</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Categories</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded shadow">
+          <thead>
+            <tr>
+              <th className="p-4 text-left">Name</th>
+              <th className="p-4 text-left">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.map((category) => (
+              <tr key={category._id}>
+                <td className="p-4">{category.name}</td>
+                <td className="p-4">{category.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className="mt-4">
         <form onSubmit={handleSearch} className="flex items-center space-x-2">
           <input
             type="text"
@@ -62,24 +80,6 @@ const AdminCategories = () => {
           </button>
         </form>
       </div>
-
-      {/* Categories Table */}
-      <table className="w-full bg-white shadow rounded">
-        <thead>
-          <tr>
-            <th className="p-4 text-left">Name</th>
-            <th className="p-4 text-left">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category) => (
-            <tr key={category._id}>
-              <td className="p-4">{category.name}</td>
-              <td className="p-4">{category.description}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
       {/* Pagination */}
       <div className="flex justify-center mt-4">

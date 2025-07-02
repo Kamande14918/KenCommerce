@@ -85,34 +85,36 @@ const AdminProductEdit = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Edit Product</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required className="p-2 border rounded w-full" />
-        <input name="price" value={form.price} onChange={handleChange} placeholder="Price" required type="number" className="p-2 border rounded w-full" />
-        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" required className="p-2 border rounded w-full" />
-        <select name="category" value={form.category} onChange={handleChange} required className="p-2 border rounded w-full">
-          <option value="">Select Category</option>
-          {categories.map((cat) => (
-            <option key={cat._id} value={cat._id}>{cat.name}</option>
-          ))}
-        </select>
-        <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required type="number" className="p-2 border rounded w-full" />
-        <div>
-          <label className="block mb-1">Current Images:</label>
-          <div className="flex flex-wrap gap-2">
-            {currentImages.map((img, idx) => (
-              <img key={idx} src={img.url || img} alt="Product" className="w-20 h-20 object-cover border" />
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
+      <div className="flex flex-col md:flex-row gap-8">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required className="p-2 border rounded w-full" />
+          <input name="price" value={form.price} onChange={handleChange} placeholder="Price" required type="number" className="p-2 border rounded w-full" />
+          <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" required className="p-2 border rounded w-full" />
+          <select name="category" value={form.category} onChange={handleChange} required className="p-2 border rounded w-full">
+            <option value="">Select Category</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>{cat.name}</option>
             ))}
+          </select>
+          <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required type="number" className="p-2 border rounded w-full" />
+          <div>
+            <label className="block mb-1">Current Images:</label>
+            <div className="flex flex-wrap gap-2">
+              {currentImages.map((img, idx) => (
+                <img key={idx} src={img.url || img} alt="Product" className="w-20 h-20 object-cover border" />
+              ))}
+            </div>
           </div>
-        </div>
-        <input name="images" type="file" multiple onChange={handleFileChange} className="p-2 border rounded w-full" />
-        <button type="submit" disabled={loading} className="px-4 py-2 bg-primary-600 text-white rounded">
-          {loading ? 'Updating...' : 'Update Product'}
-        </button>
-        {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-600">Product updated successfully!</p>}
-      </form>
+          <input name="images" type="file" multiple onChange={handleFileChange} className="p-2 border rounded w-full" />
+          <button type="submit" disabled={loading} className="px-4 py-2 bg-primary-600 text-white rounded">
+            {loading ? 'Updating...' : 'Update Product'}
+          </button>
+          {error && <p className="text-red-500">{error}</p>}
+          {success && <p className="text-green-600">Product updated successfully!</p>}
+        </form>
+      </div>
     </div>
   );
 };

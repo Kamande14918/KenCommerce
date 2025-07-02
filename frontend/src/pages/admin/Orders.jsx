@@ -44,11 +44,33 @@ const AdminOrders = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Orders</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Orders</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded shadow">
+          <thead>
+            <tr>
+              <th className="p-4 text-left">Order ID</th>
+              <th className="p-4 text-left">Customer</th>
+              <th className="p-4 text-left">Total</th>
+              <th className="p-4 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td className="p-4">{order._id}</td>
+                <td className="p-4">{order.customer.name}</td>
+                <td className="p-4">${order.total}</td>
+                <td className="p-4">{order.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className="mt-4">
         <form onSubmit={handleSearch} className="flex items-center space-x-2">
           <input
             type="text"
@@ -62,28 +84,6 @@ const AdminOrders = () => {
           </button>
         </form>
       </div>
-
-      {/* Orders Table */}
-      <table className="w-full bg-white shadow rounded">
-        <thead>
-          <tr>
-            <th className="p-4 text-left">Order ID</th>
-            <th className="p-4 text-left">Customer</th>
-            <th className="p-4 text-left">Total</th>
-            <th className="p-4 text-left">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order._id}>
-              <td className="p-4">{order._id}</td>
-              <td className="p-4">{order.customer.name}</td>
-              <td className="p-4">${order.total}</td>
-              <td className="p-4">{order.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
       {/* Pagination */}
       <div className="flex justify-center mt-4">

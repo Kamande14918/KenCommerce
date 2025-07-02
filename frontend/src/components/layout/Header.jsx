@@ -87,7 +87,11 @@ const Header = () => {
     return <AdminNavBar />;
   }
   // Otherwise, show UserNavBar (for guests and normal users)
-  return <UserNavBar />;
+  return (
+    <div className="relative">
+      <UserNavBar />
+    </div>
+  );
 }
 
 export default Header

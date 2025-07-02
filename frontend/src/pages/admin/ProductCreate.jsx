@@ -69,50 +69,52 @@ const AdminProductCreate = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Add Product</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required className="p-2 border rounded w-full" />
-        <input name="price" value={form.price} onChange={handleChange} placeholder="Price" required type="number" className="p-2 border rounded w-full" />
-        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" required className="p-2 border rounded w-full" />
-        <input
-          type="text"
-          placeholder="Search or type category"
-          value={categorySearch}
-          onChange={e => setCategorySearch(e.target.value)}
-          className="p-2 border rounded w-full"
-        />
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          required
-          className="p-2 border rounded w-full"
-        >
-          <option value="">Select Category</option>
-          {categories
-            .filter(cat =>
-              cat.name.toLowerCase().includes(categorySearch.toLowerCase())
-            )
-            .map((cat) => (
-              <option key={cat._id} value={cat._id}>{cat.name}</option>
-            ))}
-        </select>
-        <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required type="number" className="p-2 border rounded w-full" />
-        <input name="images" type="file" multiple onChange={handleFileChange} className="p-2 border rounded w-full" />
-        {imagePreviews.length > 0 && (
-          <div className="flex gap-2 mb-2">
-            {imagePreviews.map((src, idx) => (
-              <img key={idx} src={src} alt="Preview" className="w-24 h-24 object-cover rounded border" />
-            ))}
-          </div>
-        )}
-        <button type="submit" disabled={loading} className="px-4 py-2 bg-primary-600 text-white rounded">
-          {loading ? 'Creating...' : 'Create Product'}
-        </button>
-        {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-600">Product created successfully!</p>}
-      </form>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Create Product</h1>
+      <div className="flex flex-col md:flex-row gap-8">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required className="p-2 border rounded w-full" />
+          <input name="price" value={form.price} onChange={handleChange} placeholder="Price" required type="number" className="p-2 border rounded w-full" />
+          <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" required className="p-2 border rounded w-full" />
+          <input
+            type="text"
+            placeholder="Search or type category"
+            value={categorySearch}
+            onChange={e => setCategorySearch(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+          <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            required
+            className="p-2 border rounded w-full"
+          >
+            <option value="">Select Category</option>
+            {categories
+              .filter(cat =>
+                cat.name.toLowerCase().includes(categorySearch.toLowerCase())
+              )
+              .map((cat) => (
+                <option key={cat._id} value={cat._id}>{cat.name}</option>
+              ))}
+          </select>
+          <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required type="number" className="p-2 border rounded w-full" />
+          <input name="images" type="file" multiple onChange={handleFileChange} className="p-2 border rounded w-full" />
+          {imagePreviews.length > 0 && (
+            <div className="flex gap-2 mb-2">
+              {imagePreviews.map((src, idx) => (
+                <img key={idx} src={src} alt="Preview" className="w-24 h-24 object-cover rounded border" />
+              ))}
+            </div>
+          )}
+          <button type="submit" disabled={loading} className="px-4 py-2 bg-primary-600 text-white rounded">
+            {loading ? 'Creating...' : 'Create Product'}
+          </button>
+          {error && <p className="text-red-500">{error}</p>}
+          {success && <p className="text-green-600">Product created successfully!</p>}
+        </form>
+      </div>
     </div>
   );
 };

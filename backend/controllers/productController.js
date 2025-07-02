@@ -8,8 +8,7 @@ const Review = require('../models/Review');
 const getProducts = async (req, res) => {
   try {
     const products = await Product.find({})
-      .populate('category', 'name slug')
-      .populate('seller', 'firstName lastName businessName');
+      .populate('category', 'name slug');
     res.status(200).json(products);
   } catch (error) {
     console.error('Get products error:', error);
@@ -22,21 +21,20 @@ const getProducts = async (req, res) => {
 // @access  Public
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id)
-      .populate('category', 'name slug')
-      .populate('seller', 'firstName lastName businessName avatar')
-      .populate({
-        path: 'reviews',
-        populate: {
-          path: 'user',
-          select: 'firstName lastName avatar',
-        },
-      });
-
+    let product;
+    // Try to find by ObjectId first
+    if (/^[0-9a-fA-F]{24}$/.test(req.params.id)) {
+      product = await Product.findById(req.params.id)
+        .populate('category', 'name slug');
+    }
+    // If not found, or not a valid ObjectId, try by slug
+    if (!product) {
+      product = await Product.findOne({ slug: req.params.id })
+        .populate('category', 'name slug');
+    }
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-
     res.status(200).json(product);
   } catch (error) {
     console.error('Get product by ID error:', error);
@@ -132,8 +130,7 @@ const searchProducts = async (req, res) => {
     if (maxPrice) filter.price = { ...filter.price, $lte: Number(maxPrice) };
 
     let query = Product.find(filter)
-      .populate('category', 'name slug')
-      .populate('seller', 'firstName lastName businessName');
+      .populate('category', 'name slug');
 
     // Sorting
     if (sort) {
@@ -161,8 +158,7 @@ const searchProducts = async (req, res) => {
 const getFeaturedProducts = async (req, res) => {
   try {
     const products = await Product.find({ featured: true, status: 'active' })
-      .populate('category', 'name slug')
-      .populate('seller', 'firstName lastName businessName');
+      .populate('category', 'name slug');
     res.status(200).json(products);
   } catch (error) {
     console.error('Get featured products error:', error);
@@ -181,8 +177,7 @@ const getProductsByCategory = async (req, res) => {
       return res.status(404).json({ message: 'Category not found' });
     }
     const products = await Product.find({ category: category._id, status: 'active' })
-      .populate('category', 'name slug')
-      .populate('seller', 'firstName lastName businessName');
+      .populate('category', 'name slug');
     res.status(200).json(products);
   } catch (error) {
     console.error('Get products by category error:', error);

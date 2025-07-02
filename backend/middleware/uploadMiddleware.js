@@ -253,4 +253,4 @@ const upload = {
   extractPublicId
 };
 
-module.exports = { upload, cloudinary };
+module.exports = { upload, cloudinary, uploadProductImages };

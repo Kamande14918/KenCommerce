@@ -44,27 +44,16 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const { product, quantity = 1, variant = null } = action.payload
-      const cartItemId = variant ? `${product._id}-${variant.name}-${variant.value}` : product._id
+      const item = action.payload;
+      if (!item || !item._id) return;
+      const { quantity = 1, variant = null } = item;
+      const cartItemId = variant ? `${item._id}-${variant.name}-${variant.value}` : item._id;
       
-      const existingItem = state.items.find(item => item.cartItemId === cartItemId)
-      
-      if (existingItem) {
-        existingItem.quantity += quantity
+      const existItem = state.items.find(i => i._id === item._id && (!variant || (i.variant && i.variant.name === variant.name && i.variant.value === variant.value)));
+      if (existItem) {
+        existItem.quantity += quantity;
       } else {
-        const newItem = {
-          cartItemId,
-          productId: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.primaryImage?.url || product.images[0]?.url,
-          slug: product.slug,
-          quantity,
-          variant,
-          inStock: product.inStock,
-          maxQuantity: product.inventory?.stock || 99,
-        }
-        state.items.push(newItem)
+        state.items.push({ ...item, quantity, variant });
       }
       
       // Recalculate totals
@@ -172,6 +161,9 @@ export const {
   setLoading,
   syncCart,
 } = cartSlice.actions
+
+// Alias for compatibility with Cart.jsx
+export const updateCartQty = updateQuantity
 
 // Selectors
 export const selectCart = (state) => state.cart

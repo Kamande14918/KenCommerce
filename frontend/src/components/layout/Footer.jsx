@@ -42,7 +42,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       {/* Main footer content */}
       <div className="container-custom py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Company info */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center space-x-2 text-2xl font-bold mb-6">
@@ -75,7 +75,7 @@ const Footer = () => {
 
           {/* Footer links */}
           {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
+            <div key={category} className="mt-8 sm:mt-0">
               <h3 className="font-semibold text-lg mb-4">{category}</h3>
               <ul className="space-y-3">
                 {links.map((link) => (
@@ -102,7 +102,7 @@ const Footer = () => {
               © {currentYear} KenCommerce. All rights reserved.
             </div>
             
-            <div className="flex items-center space-x-6">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6">
               <span className="text-gray-400 text-sm">We accept:</span>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-6 bg-blue-600 rounded text-xs text-white flex items-center justify-center">

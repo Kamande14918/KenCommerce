@@ -29,7 +29,7 @@ router.post('/:id/reviews', protect, addProductReview);
 
 // Admin routes
 router.post('/', protect, admin, uploadProductImages, createProduct);
-router.put('/:id', protect, admin, upload.productImages, updateProduct);
+router.put('/:id', protect, admin, uploadProductImages, updateProduct);
 router.delete('/:id', protect, admin, deleteProduct);
 
 module.exports = router;

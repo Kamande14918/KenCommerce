@@ -25,21 +25,29 @@ const Home = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <div className="pt-16 lg:pt-24">
-        {/* Hero Section */}
-        <Hero />
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col gap-8 md:gap-12">
+          {/* Hero Section */}
+          <section className="flex flex-col md:flex-row items-center gap-8">
+            <Hero />
+          </section>
 
-        {/* Featured Categories */}
-        <Categories />
+          {/* Featured Categories */}
+          <Categories />
 
-        {/* Featured Products */}
-        <FeaturedProducts />
+          {/* Featured Products */}
+          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <FeaturedProducts />
+          </section>
 
-        {/* Why Choose Us */}
-        <WhyChooseUs />
+          {/* Why Choose Us */}
+          <WhyChooseUs />
 
-        {/* Newsletter */}
-        <Newsletter />
+          {/* Newsletter */}
+          <section className="w-full max-w-lg mx-auto">
+            <Newsletter />
+          </section>
+        </div>
       </div>
     </>
   )

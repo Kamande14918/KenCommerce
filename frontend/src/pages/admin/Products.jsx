@@ -79,79 +79,51 @@ const AdminProducts = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Products</h1>
-
-      {/* Search and Filter */}
-      <div className="mb-4 flex items-center space-x-4">
-        <form onSubmit={handleSearch} className="flex items-center space-x-2">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-2 border rounded w-64"
-          />
-          <button type="submit" className="px-4 py-2 bg-primary-600 text-white rounded">
-            Search
-          </button>
-        </form>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="p-2 border rounded"
-        >
-          <option value="">All Categories</option>
-          {categories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Products Table */}
-      <table className="w-full bg-white shadow rounded">
-        <thead>
-          <tr>
-            <th className="p-4 text-left">Image</th>
-            <th className="p-4 text-left">Name</th>
-            <th className="p-4 text-left">Price</th>
-            <th className="p-4 text-left">Stock</th>
-            <th className="p-4 text-left">Category</th>
-            <th className="p-4 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product._id}>
-              <td className="p-4">
-                {product.images && product.images.length > 0 && (
-                  <img src={product.images[0].url || product.images[0]} alt="Product" className="w-12 h-12 object-cover rounded" />
-                )}
-              </td>
-              <td className="p-4">{product.name}</td>
-              <td className="p-4">${product.price}</td>
-              <td className="p-4">{product.stock}</td>
-              <td className="p-4">{product.category.name}</td>
-              <td className="p-4 space-x-2">
-                <button
-                  onClick={() => navigate(`/admin/products/${product._id}/edit`)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(product._id)}
-                  className="px-3 py-1 bg-red-500 text-white rounded"
-                >
-                  Delete
-                </button>
-              </td>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Manage Products</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded shadow">
+          <thead>
+            <tr>
+              <th className="p-4 text-left">Image</th>
+              <th className="p-4 text-left">Name</th>
+              <th className="p-4 text-left">Price</th>
+              <th className="p-4 text-left">Stock</th>
+              <th className="p-4 text-left">Category</th>
+              <th className="p-4 text-left">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product._id}>
+                <td className="p-4">
+                  {product.images && product.images.length > 0 && (
+                    <img src={product.images[0].url || product.images[0]} alt="Product" className="w-12 h-12 object-cover rounded" />
+                  )}
+                </td>
+                <td className="p-4">{product.name}</td>
+                <td className="p-4">${product.price}</td>
+                <td className="p-4">{product.stock}</td>
+                <td className="p-4">{product.category.name}</td>
+                <td className="p-4 space-x-2">
+                  <button
+                    onClick={() => navigate(`/admin/products/${product._id}/edit`)}
+                    className="px-3 py-1 bg-blue-500 text-white rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="px-3 py-1 bg-red-500 text-white rounded"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Pagination */}
       <div className="flex justify-center mt-4">

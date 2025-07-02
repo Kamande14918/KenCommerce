@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import MobileMenu from './components/layout/MobileMenu'
-import Cart from './components/cart/Cart'
+import Cart from './pages/Cart'
 import ScrollToTop from './components/common/ScrollToTop'
 
 // Pages

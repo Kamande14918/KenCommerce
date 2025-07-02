@@ -44,11 +44,33 @@ const AdminReviews = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Reviews</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Reviews</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded shadow">
+          <thead>
+            <tr>
+              <th className="p-4 text-left">Product</th>
+              <th className="p-4 text-left">User</th>
+              <th className="p-4 text-left">Rating</th>
+              <th className="p-4 text-left">Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reviews.map((review) => (
+              <tr key={review._id}>
+                <td className="p-4">{review.product.name}</td>
+                <td className="p-4">{review.user.name}</td>
+                <td className="p-4">{review.rating}</td>
+                <td className="p-4">{review.comment}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className="mt-4">
         <form onSubmit={handleSearch} className="flex items-center space-x-2">
           <input
             type="text"
@@ -62,28 +84,6 @@ const AdminReviews = () => {
           </button>
         </form>
       </div>
-
-      {/* Reviews Table */}
-      <table className="w-full bg-white shadow rounded">
-        <thead>
-          <tr>
-            <th className="p-4 text-left">Product</th>
-            <th className="p-4 text-left">User</th>
-            <th className="p-4 text-left">Rating</th>
-            <th className="p-4 text-left">Comment</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reviews.map((review) => (
-            <tr key={review._id}>
-              <td className="p-4">{review.product.name}</td>
-              <td className="p-4">{review.user.name}</td>
-              <td className="p-4">{review.rating}</td>
-              <td className="p-4">{review.comment}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
       {/* Pagination */}
       <div className="flex justify-center mt-4">
