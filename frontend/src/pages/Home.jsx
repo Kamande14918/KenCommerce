@@ -5,6 +5,8 @@ import FeaturedProducts from '../components/home/FeaturedProducts'
 import Categories from '../components/home/Categories'
 import Newsletter from '../components/home/Newsletter'
 import WhyChooseUs from '../components/home/WhyChooseUs'
+import SearchBar from '../components/home/SearchBar'
+import HeroCategories from '../components/home/HeroCategories'
 
 const Home = () => {
   useEffect(() => {
@@ -25,19 +27,15 @@ const Home = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 flex flex-col gap-6">
+        <SearchBar />
+        <HeroCategories />
+        <FeaturedProducts />
+        <Categories />
         <div className="flex flex-col gap-8 md:gap-12">
           {/* Hero Section */}
           <section className="flex flex-col md:flex-row items-center gap-8">
             <Hero />
-          </section>
-
-          {/* Featured Categories */}
-          <Categories />
-
-          {/* Featured Products */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <FeaturedProducts />
           </section>
 
           {/* Why Choose Us */}

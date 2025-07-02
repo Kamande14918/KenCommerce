@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const AdminProductEdit = () => {
   const { id } = useParams();
-  const [form, setForm] = useState({ name: '', price: '', description: '', category: '', stock: '', images: [] });
+  const [form, setForm] = useState({ name: '', price: '', description: '', category: '', stock: '', images: [], featured: false });
   const [categories, setCategories] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,8 @@ const AdminProductEdit = () => {
           description: data.description,
           category: data.category?._id || '',
           stock: data.stock,
-          images: []
+          images: [],
+          featured: data.featured || false
         });
         setCurrentImages(data.images || []);
       } catch (err) {
@@ -47,7 +48,8 @@ const AdminProductEdit = () => {
   }, [id]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
   };
 
   const handleFileChange = (e) => {
@@ -99,6 +101,10 @@ const AdminProductEdit = () => {
             ))}
           </select>
           <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required type="number" className="p-2 border rounded w-full" />
+          <label className="flex items-center gap-2">
+            <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} />
+            Featured
+          </label>
           <div>
             <label className="block mb-1">Current Images:</label>
             <div className="flex flex-wrap gap-2">

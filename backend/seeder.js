@@ -217,117 +217,107 @@ const sampleCategories = [
   }
 ];
 
-const sampleProducts = [
-  {
-    name: 'iPhone 15 Pro',
-    description: 'Latest iPhone with advanced features and A17 Pro chip',
-    price: 999.99,
-    stock: 50,
-    brand: 'Apple',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=800',
-        alt: 'iPhone 15 Pro'
-      }
+// Helper functions for random data
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomPrice() {
+  // Ksh 500 to Ksh 200,000
+  return getRandomInt(500, 200000);
+}
+
+// Product names and images for each category
+const categoryProductData = {
+  electronics: {
+    names: [
+      "iPhone 15 Pro", "Samsung Galaxy S24", "Dell XPS 13", "Sony WH-1000XM5",
+      "MacBook Pro 16", "Canon EOS R5", "GoPro Hero 12", "Apple Watch Series 9",
+      "Bose QuietComfort Earbuds", "Nintendo Switch OLED", "DJI Mini 3 Pro",
+      "HP Spectre x360", "Logitech MX Master 3S", "Samsung QLED TV", "Kindle Paperwhite",
+      "Raspberry Pi 5", "Anker PowerCore 20000", "Google Pixel 8", "OnePlus 12", "JBL Flip 6"
     ],
-    tags: ['smartphone', 'apple', 'ios', 'mobile'],
-    specifications: {
-      'Display': '6.1-inch Super Retina XDR',
-      'Chip': 'A17 Pro',
-      'Camera': '48MP Main camera',
-      'Storage': '128GB'
-    },
-    isActive: true,
-    isFeatured: true
+    images: [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800",
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800",
+      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+      "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800",
+      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+      "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?w=800",
+      "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=800",
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=800",
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800",
+      "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?w=800",
+      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800",
+      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800",
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800",
+      "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800"
+    ]
   },
-  {
-    name: 'Samsung Galaxy S24',
-    description: 'Powerful Android smartphone with AI features',
-    price: 899.99,
-    stock: 30,
-    brand: 'Samsung',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800',
-        alt: 'Samsung Galaxy S24'
-      }
+  fashion: {
+    names: [
+      "Classic Blue Jeans", "Summer Floral Dress", "Men's Leather Jacket", "Women's Blazer",
+      "Unisex Hoodie", "Sports Sneakers", "Silk Scarf", "Woolen Beanie", "Cotton T-Shirt",
+      "Denim Shorts", "Formal Trousers", "Maxi Skirt", "Polo Shirt", "Ankle Boots",
+      "Raincoat", "Graphic Tee", "Cargo Pants", "Bomber Jacket", "Sun Hat", "Running Shorts"
     ],
-    tags: ['smartphone', 'samsung', 'android', 'mobile'],
-    specifications: {
-      'Display': '6.2-inch Dynamic AMOLED',
-      'Processor': 'Snapdragon 8 Gen 3',
-      'Camera': '50MP Triple camera',
-      'Storage': '256GB'
-    },
-    isActive: true,
-    isFeatured: true
+    images: [
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800"
+    ]
   },
-  {
-    name: 'Nike Air Max 270',
-    description: 'Comfortable running shoes with Air Max technology',
-    price: 129.99,
-    stock: 100,
-    brand: 'Nike',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
-        alt: 'Nike Air Max 270'
-      }
-    ],
-    tags: ['shoes', 'nike', 'running', 'sports'],
-    specifications: {
-      'Material': 'Mesh and synthetic leather',
-      'Technology': 'Air Max cushioning',
-      'Type': 'Running shoes'
-    },
-    isActive: true,
-    isFeatured: false
-  },
-  {
-    name: 'MacBook Pro 16"',
-    description: 'Professional laptop with M3 chip for demanding tasks',
-    price: 2499.99,
-    stock: 20,
-    brand: 'Apple',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800',
-        alt: 'MacBook Pro 16 inch'
-      }
-    ],
-    tags: ['laptop', 'apple', 'macbook', 'professional'],
-    specifications: {
-      'Processor': 'Apple M3 Pro',
-      'Display': '16.2-inch Liquid Retina XDR',
-      'Memory': '18GB unified memory',
-      'Storage': '512GB SSD'
-    },
-    isActive: true,
-    isFeatured: true
-  },
-  {
-    name: 'Sony WH-1000XM5',
-    description: 'Premium noise-canceling wireless headphones',
-    price: 349.99,
-    stock: 75,
-    brand: 'Sony',
-    images: [
-      {
-        url: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800',
-        alt: 'Sony WH-1000XM5 Headphones'
-      }
-    ],
-    tags: ['headphones', 'sony', 'wireless', 'noise-canceling'],
-    specifications: {
-      'Type': 'Over-ear wireless',
-      'Battery': '30 hours',
-      'Features': 'Active Noise Canceling',
-      'Connectivity': 'Bluetooth 5.2'
-    },
-    isActive: true,
-    isFeatured: true
+  // ...repeat for all other categories with unique names and images
+};
+
+const sampleProducts = [];
+sampleCategories.forEach((cat) => {
+  const data = categoryProductData[cat.slug] || { names: [], images: [] };
+  for (let i = 0; i < data.names.length; i++) {
+    sampleProducts.push({
+      name: data.names[i],
+      description: `High quality ${cat.name} item: ${data.names[i]}`,
+      price: getRandomPrice(),
+      stock: getRandomInt(10, 200),
+      brand: `Brand${getRandomInt(1, 20)}`,
+      images: [{
+        url: data.images[i % data.images.length],
+        alt: data.names[i],
+        public_id: `seeded-image-${cat.slug}-${i}`
+      }],
+      tags: [cat.slug, 'sale', 'popular'],
+      specifications: {
+        Feature: `Special feature ${i + 1}`,
+        Warranty: `${getRandomInt(1, 3)} year(s)`
+      },
+      status: 'active',
+      featured: i % 5 === 0 // every 5th product is featured
+    });
   }
-];
+});
 
 // Ensure every image has a public_id for seeding
 sampleProducts.forEach(product => {
@@ -338,6 +328,17 @@ sampleProducts.forEach(product => {
       }
     });
   }
+  // Set status to 'active' for all products
+  product.status = 'active';
+  // Set inventory.stock to a random value between 10 and 200
+  product.inventory = product.inventory || {};
+  product.inventory.stock = getRandomInt(10, 200);
+  product.inventory.trackStock = true;
+  product.inventory.lowStockThreshold = 10;
+  product.inventory.allowBackorder = false;
+  product.inventory.stockStatus = 'in_stock';
+  // Remove isFeatured if present
+  if ('isFeatured' in product) delete product.isFeatured;
 });
 
 const importData = async () => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AdminProductCreate = () => {
-  const [form, setForm] = useState({ name: '', price: '', description: '', category: '', stock: '', images: [] });
+  const [form, setForm] = useState({ name: '', price: '', description: '', category: '', stock: '', images: [], featured: false });
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +26,8 @@ const AdminProductCreate = () => {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === 'checkbox' ? checked : value });
   };
 
   const handleFileChange = (e) => {
@@ -61,7 +62,7 @@ const AdminProductCreate = () => {
         }
       });
       setSuccess(true);
-      setForm({ name: '', price: '', description: '', category: '', stock: '', images: [] });
+      setForm({ name: '', price: '', description: '', category: '', stock: '', images: [], featured: false });
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create product');
     }
@@ -108,6 +109,10 @@ const AdminProductCreate = () => {
               ))}
             </div>
           )}
+          <label className="flex items-center gap-2">
+            <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} />
+            Featured
+          </label>
           <button type="submit" disabled={loading} className="px-4 py-2 bg-primary-600 text-white rounded">
             {loading ? 'Creating...' : 'Create Product'}
           </button>

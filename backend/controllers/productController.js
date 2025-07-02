@@ -7,8 +7,16 @@ const Review = require('../models/Review');
 // @access  Public
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({})
-      .populate('category', 'name slug');
+    let query = Product.find({});
+    // Sorting
+    if (req.query.sort === 'newest') {
+      query = query.sort({ createdAt: -1 });
+    }
+    // Limit
+    if (req.query.limit) {
+      query = query.limit(Number(req.query.limit));
+    }
+    const products = await query.populate('category', 'name slug');
     res.status(200).json(products);
   } catch (error) {
     console.error('Get products error:', error);
@@ -119,33 +127,50 @@ const searchProducts = async (req, res) => {
   try {
     const { q, category, minPrice, maxPrice, sort, page = 1, limit = 20 } = req.query;
     const filter = { status: 'active' };
+    let products = [];
+    let total = 0;
     if (q) {
       filter.$text = { $search: q };
+      products = await Product.find(filter)
+        .populate('category', 'name slug')
+        .skip((Number(page) - 1) * Number(limit))
+        .limit(Number(limit));
+      total = await Product.countDocuments(filter);
+      // If no results, fallback to regex search
+      if (products.length === 0) {
+        delete filter.$text;
+        filter.$or = [
+          { name: { $regex: q, $options: 'i' } },
+          { description: { $regex: q, $options: 'i' } },
+          { tags: { $regex: q, $options: 'i' } }
+        ];
+        products = await Product.find(filter)
+          .populate('category', 'name slug')
+          .skip((Number(page) - 1) * Number(limit))
+          .limit(Number(limit));
+        total = await Product.countDocuments(filter);
+      }
+    } else {
+      if (category) {
+        const cat = await Category.findOne({ slug: category });
+        if (cat) filter.category = cat._id;
+      }
+      if (minPrice) filter.price = { ...filter.price, $gte: Number(minPrice) };
+      if (maxPrice) filter.price = { ...filter.price, $lte: Number(maxPrice) };
+      products = await Product.find(filter)
+        .populate('category', 'name slug')
+        .skip((Number(page) - 1) * Number(limit))
+        .limit(Number(limit));
+      total = await Product.countDocuments(filter);
     }
-    if (category) {
-      const cat = await Category.findOne({ slug: category });
-      if (cat) filter.category = cat._id;
-    }
-    if (minPrice) filter.price = { ...filter.price, $gte: Number(minPrice) };
-    if (maxPrice) filter.price = { ...filter.price, $lte: Number(maxPrice) };
-
-    let query = Product.find(filter)
-      .populate('category', 'name slug');
-
     // Sorting
     if (sort) {
-      if (sort === 'price_asc') query = query.sort({ price: 1 });
-      else if (sort === 'price_desc') query = query.sort({ price: -1 });
-      else if (sort === 'newest') query = query.sort({ createdAt: -1 });
-      else if (sort === 'rating') query = query.sort({ 'ratings.average': -1 });
+      if (sort === 'price_asc') products = products.sort((a, b) => a.price - b.price);
+      else if (sort === 'price_desc') products = products.sort((a, b) => b.price - a.price);
+      else if (sort === 'newest') products = products.sort((a, b) => b.createdAt - a.createdAt);
+      else if (sort === 'rating') products = products.sort((a, b) => b.ratings.average - a.ratings.average);
     }
-
-    // Pagination
-    const skip = (Number(page) - 1) * Number(limit);
-    query = query.skip(skip).limit(Number(limit));
-
-    const products = await query;
-    res.status(200).json(products);
+    res.status(200).json({ products, total });
   } catch (error) {
     console.error('Search products error:', error);
     res.status(500).json({ message: 'Failed to search products', error: error.message });
@@ -157,8 +182,18 @@ const searchProducts = async (req, res) => {
 // @access  Public
 const getFeaturedProducts = async (req, res) => {
   try {
-    const products = await Product.find({ featured: true, status: 'active' })
+    const { limit = 8, sort = 'newest' } = req.query;
+    let query = Product.find({ featured: true, status: 'active' })
       .populate('category', 'name slug');
+    // Sorting
+    if (sort === 'newest') {
+      query = query.sort({ createdAt: -1 });
+    } else if (sort === 'oldest') {
+      query = query.sort({ createdAt: 1 });
+    }
+    // Limit
+    query = query.limit(Number(limit));
+    const products = await query;
     res.status(200).json(products);
   } catch (error) {
     console.error('Get featured products error:', error);
@@ -172,15 +207,27 @@ const getFeaturedProducts = async (req, res) => {
 const getProductsByCategory = async (req, res) => {
   try {
     const { categorySlug } = req.params;
-    const category = await Category.findOne({ slug: categorySlug });
+    let category = await Category.findOne({ slug: categorySlug });
+    if (!category && categorySlug.match(/^[0-9a-fA-F]{24}$/)) {
+      category = await Category.findById(categorySlug);
+    }
     if (!category) {
+      category = await Category.findOne({ name: new RegExp('^' + categorySlug + '$', 'i') });
+    }
+    if (!category) {
+      // Fallback: find products whose populated category has a matching slug or id
+      const products = await Product.find({ status: 'active' }).populate('category', 'name slug');
+      const filtered = products.filter(
+        p => p.category && (p.category.slug === categorySlug || p.category._id.toString() === categorySlug)
+      );
+      if (filtered.length > 0) {
+        return res.status(200).json(filtered);
+      }
       return res.status(404).json({ message: 'Category not found' });
     }
-    const products = await Product.find({ category: category._id, status: 'active' })
-      .populate('category', 'name slug');
+    const products = await Product.find({ category: category._id, status: 'active' }).populate('category', 'name slug');
     res.status(200).json(products);
   } catch (error) {
-    console.error('Get products by category error:', error);
     res.status(500).json({ message: 'Failed to fetch products by category', error: error.message });
   }
 };
